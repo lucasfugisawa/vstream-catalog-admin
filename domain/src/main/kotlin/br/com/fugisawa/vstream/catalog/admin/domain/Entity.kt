@@ -1,6 +1,10 @@
 package br.com.fugisawa.vstream.catalog.admin.domain
 
-abstract class Entity<ID: Identifier>(protected val id: ID) {
+import br.com.fugisawa.vstream.catalog.admin.domain.validation.ValidationHandler
+
+abstract class Entity<ID: Identifier>(val id: ID) {
+
+    abstract fun validate(handler: ValidationHandler)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
