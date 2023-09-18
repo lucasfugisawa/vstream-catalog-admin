@@ -15,6 +15,10 @@ dependencies {
     implementation(project(":application"))
 
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+    testImplementation 'org.mockito.kotlin:mockito-kotlin:5.0.0'
+
+    testRuntimeOnly('org.junit.platform:junit-platform-launcher:1.9.2')
 }
 
 test {
@@ -22,9 +26,9 @@ test {
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(17)
 }
 
 application {
-    mainClassName = 'br.com.fugisawa.vstream.catalog.admin.infrastructure.MainKt'
+    mainClass = 'br.com.fugisawa.vstream.catalog.admin.infrastructure.MainKt'
 }
