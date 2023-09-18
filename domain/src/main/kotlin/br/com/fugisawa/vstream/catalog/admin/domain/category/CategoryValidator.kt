@@ -8,9 +8,7 @@ private const val NAME_MIN_LENGTH = 3
 private const val NAME_MAX_LENGTH = 255
 
 class CategoryValidator(private val category: Category, handler: ValidationHandler) : Validator(handler) {
-    override fun validate() {
-        checkNameConstraints()
-    }
+    override fun validate() = checkNameConstraints()
 
     private fun checkNameConstraints() {
         val name = category.name.trim()

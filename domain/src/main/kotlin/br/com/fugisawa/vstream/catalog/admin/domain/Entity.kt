@@ -2,7 +2,7 @@ package br.com.fugisawa.vstream.catalog.admin.domain
 
 import br.com.fugisawa.vstream.catalog.admin.domain.validation.ValidationHandler
 
-abstract class Entity<ID: Identifier>(val id: ID) {
+abstract class Entity<ID : Identifier>(val id: ID) {
 
     abstract fun validate(handler: ValidationHandler)
 
@@ -13,12 +13,6 @@ abstract class Entity<ID: Identifier>(val id: ID) {
         return id == other.id
     }
 
-    override fun hashCode(): Int {
-        return id.hashCode()
-    }
-
-    override fun toString(): String {
-        return "Entity(id=$id)"
-    }
-
+    override fun hashCode() = id.hashCode()
+    override fun toString() = "Entity(id=$id)"
 }

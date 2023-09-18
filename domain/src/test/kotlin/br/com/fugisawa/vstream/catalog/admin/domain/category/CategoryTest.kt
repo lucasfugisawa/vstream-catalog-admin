@@ -142,7 +142,6 @@ class CategoryTest {
 
         val aCategory = Category.newCategory(expectedName, expectedDescription, expectedActive)
 
-        // val updatedAt = aCategory.updatedAt
         val createdAt = aCategory.createdAt
 
         assertTrue(aCategory.active)
@@ -158,8 +157,6 @@ class CategoryTest {
         assertFalse(actualCategory.active)
         assertEquals(createdAt, actualCategory.createdAt)
         assertNotNull(actualCategory.deletedAt)
-        // assertTrue(actualCategory.deletedAt!!.isAfter(updatedAt))
-        // assertTrue(actualCategory.updatedAt.isAfter(updatedAt))
     }
 
     @Test
@@ -170,7 +167,6 @@ class CategoryTest {
 
         val aCategory = Category.newCategory(expectedName, expectedDescription, expectedActive)
 
-//        val updatedAt = aCategory.updatedAt
         val createdAt = aCategory.createdAt
 
         assertFalse(aCategory.active)
@@ -186,7 +182,6 @@ class CategoryTest {
         assertTrue(actualCategory.active)
         assertEquals(createdAt, actualCategory.createdAt)
         assertNull(actualCategory.deletedAt)
-        // assertTrue(actualCategory.updatedAt.isAfter(updatedAt))
     }
 
     @Test
@@ -202,7 +197,6 @@ class CategoryTest {
         assertNull(aCategory.deletedAt)
         assertTrue(aCategory.active)
 
-//        val updatedAt = aCategory.updatedAt
         val createdAt = aCategory.createdAt
 
         val actualCategory = aCategory.update(expectedName, expectedDescription, expectedActive)
@@ -212,7 +206,6 @@ class CategoryTest {
         assertEquals(expectedName, actualCategory.name)
         assertEquals(expectedDescription, actualCategory.description)
         assertEquals(expectedActive, actualCategory.active)
-        // assertTrue(actualCategory.updatedAt.isAfter(updatedAt))
         assertEquals(createdAt, actualCategory.createdAt)
         assertNotNull(actualCategory.deletedAt)
     }
@@ -228,7 +221,6 @@ class CategoryTest {
 
         assertDoesNotThrow { aCategory.validate(DomainExceptionValidationHandler()) }
 
-//        val updatedAt = aCategory.updatedAt
         val createdAt = aCategory.createdAt
 
         val actualCategory = aCategory.update(expectedName, expectedDescription, expectedActive)
@@ -238,10 +230,8 @@ class CategoryTest {
         assertEquals(expectedName, actualCategory.name)
         assertEquals(expectedDescription, actualCategory.description)
         assertEquals(expectedActive, actualCategory.active)
-        // assertTrue(actualCategory.updatedAt.isAfter(updatedAt))
         assertEquals(createdAt, actualCategory.createdAt)
         assertNotNull(actualCategory.deletedAt)
-        // assertTrue(actualCategory.deletedAt!!.isAfter(updatedAt))
     }
 
     @Test
@@ -255,7 +245,6 @@ class CategoryTest {
 
         assertDoesNotThrow { aCategory.validate(DomainExceptionValidationHandler()) }
 
-//        val updatedAt = aCategory.updatedAt
         val createdAt = aCategory.createdAt
 
         val actualCategory = aCategory.update(expectedName, expectedDescription, expectedActive)

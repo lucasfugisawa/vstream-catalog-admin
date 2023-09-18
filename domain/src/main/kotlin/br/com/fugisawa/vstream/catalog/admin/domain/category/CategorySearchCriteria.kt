@@ -5,7 +5,7 @@ data class CategorySearchCriteria(
     val perPage: Int,
     val terms: String,
     val sort: String,
-    val direction: Direction
+    val direction: Direction,
 ) {
     enum class Direction {
         ASC, DESC
