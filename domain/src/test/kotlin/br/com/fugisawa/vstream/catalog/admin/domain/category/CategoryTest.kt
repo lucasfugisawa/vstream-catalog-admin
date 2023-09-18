@@ -214,7 +214,7 @@ class CategoryTest {
         assertEquals(expectedActive, actualCategory.active)
         // assertTrue(actualCategory.updatedAt.isAfter(updatedAt))
         assertEquals(createdAt, actualCategory.createdAt)
-        assertNull(actualCategory.deletedAt)
+        assertNotNull(actualCategory.deletedAt)
     }
 
     @Test
