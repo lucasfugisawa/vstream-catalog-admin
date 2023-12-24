@@ -6,7 +6,7 @@ import java.util.UUID
 data class CategoryID private constructor(val value: String) : Identifier() {
     companion object {
         fun unique() = CategoryID(UUID.randomUUID().toString().lowercase())
-        fun from(id: String) = CategoryID(id)
+        fun from(id: String) = CategoryID(id.lowercase())
         fun from(id: UUID) = CategoryID(id.toString().lowercase())
     }
 }

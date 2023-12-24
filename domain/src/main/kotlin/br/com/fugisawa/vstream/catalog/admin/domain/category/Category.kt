@@ -33,7 +33,7 @@ class Category private constructor(
 
     override fun validate(handler: ValidationHandler) = CategoryValidator(this, handler).validate()
 
-    fun deactivate() =
+    fun deactivate(): Category =
         apply {
             if (active) {
                 val now = Clock.systemUTC().instant()
@@ -43,7 +43,7 @@ class Category private constructor(
             }
         }
 
-    fun activate() =
+    fun activate(): Category =
         apply {
             if (!active) {
                 deletedAt = null
@@ -52,11 +52,13 @@ class Category private constructor(
             }
         }
 
-    fun update(name: String, description: String?, active: Boolean) =
-        apply {
+    fun update(name: String, description: String?, active: Boolean): Category {
+        if (this.active != active) {
             if (active) activate() else deactivate()
-            this.name = name
-            this.description = description
-            updatedAt = Clock.systemUTC().instant()
         }
+        this.name = name
+        this.description = description
+        this.updatedAt = Clock.systemUTC().instant()
+        return this
+    }
 }
