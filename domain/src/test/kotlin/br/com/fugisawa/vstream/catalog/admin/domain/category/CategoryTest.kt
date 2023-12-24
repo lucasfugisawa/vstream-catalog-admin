@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 class CategoryTest {
 
     @Test
-    fun givenValidParams_onCallNewCategory_instantiateNewCategory() {
+    fun `given valid parameters, when calling new Category, then should instantiate a new Category`() {
         val expectedName = "Filmes"
         val expectedDescription = "A categoria mais assistida!"
         val expectedActive = true
@@ -24,7 +24,7 @@ class CategoryTest {
     }
 
     @Test
-    fun givenInvalidEmptyName_onCallNewCategoryAndValidate_receiveError() {
+    fun `given an invalid empty name, when calling new Category and validate, then should receive an error`() {
         val expectedName = ""
         val expectedDescription = "A categoria mais assistida!"
         val expectedErrorCount = 1
@@ -40,7 +40,7 @@ class CategoryTest {
     }
 
     @Test
-    fun givenInvalidBlankName_onCallNewCategoryAndValidate_receiveError() {
+    fun `given an invalid blank name, when calling new Category, then should receive an error`() {
         val expectedName = "   "
         val expectedDescription = "A categoria mais assistida!"
         val expectedErrorCount = 1
@@ -56,7 +56,7 @@ class CategoryTest {
     }
 
     @Test
-    fun givenInvalidNameLengthLessThan3Chars_onCallNewCategoryAndValidate_receiveError() {
+    fun `given an invalid name with length less than 3 characters, when calling new Category and validate, then should receive an error`() {
         val expectedName = "ab "
         val expectedDescription = "A categoria mais assistida!"
         val expectedErrorCount = 1
@@ -72,7 +72,7 @@ class CategoryTest {
     }
 
     @Test
-    fun givenInvalidNameLengthMoreThan255Chars_onCallNewCategoryAndValidate_receiveError() {
+    fun `given an invalid name with length more than 255 characters, when calling new Category and validate, then should receive an error`() {
         val expectedName: String = "a".repeat(256)
         val expectedDescription = "A categoria mais assistida!"
         val expectedErrorCount = 1
@@ -88,7 +88,7 @@ class CategoryTest {
     }
 
     @Test
-    fun givenValidEmptyDescription_onCallNewCategoryAndValidate_instantiateNewCategory() {
+    fun `given a valid empty description, when calling new Category and validate, then should instantiate new Category`() {
         val expectedName = "Filmes"
         val expectedDescription = "  "
         val expectedActive = true
@@ -104,7 +104,7 @@ class CategoryTest {
     }
 
     @Test
-    fun givenValidNullDescription_onCallNewCategoryAndValidate_instantiateNewCategory() {
+    fun `given a valid null description, when calling new Category and validate, then should instantiate new Category`() {
         val expectedName = "Filmes"
         val expectedActive = true
 
@@ -119,7 +119,7 @@ class CategoryTest {
     }
 
     @Test
-    fun givenValidFalseActive_onCallNewCategoryAndValidate_instantiateNewCategory() {
+    fun `given a valid false active argument, when calling new Category and validate, then should instantiate new Category`() {
         val expectedName = "Filmes"
         val expectedDescription = "A categoria mais assistida!"
         val expectedActive = false
@@ -135,7 +135,7 @@ class CategoryTest {
     }
 
     @Test
-    fun givenValidActiveCategory_onCallDeactivate_categoryMustBeDeactivated() {
+    fun `given a valid true active argument, when calling deactivate, then category should be deactivated`() {
         val expectedName = "Filmes"
         val expectedDescription = "A categoria mais assistida!"
         val expectedActive = true
@@ -160,7 +160,7 @@ class CategoryTest {
     }
 
     @Test
-    fun givenValidInactiveCategory_onCallActivate_categoryMustBeActivated() {
+    fun `given a valid inactive Category, when calling activate, then category should be activated`() {
         val expectedName = "Filmes"
         val expectedDescription = "A categoria mais assistida!"
         val expectedActive = false
@@ -185,7 +185,7 @@ class CategoryTest {
     }
 
     @Test
-    fun givenValidCategory_onCallUpdate_updateCategory() {
+    fun `given a valid Category, when calling update, then should update Category`() {
         val expectedName = "Filmes"
         val expectedDescription = "A categoria mais assistida!"
         val expectedActive = false
@@ -211,7 +211,7 @@ class CategoryTest {
     }
 
     @Test
-    fun givenValidCategory_onCallUpdateToInactive_updateAndInactivateCategory() {
+    fun `given a valid Category, when calling update to inactive, then should update and inactivate Category`() {
         val expectedName = "Filmes"
         val expectedDescription = "A categoria mais assistida!"
         val expectedActive = false
@@ -235,7 +235,7 @@ class CategoryTest {
     }
 
     @Test
-    fun givenValidCategory_onCallUpdateWithInvalidArguments_updateCategory() {
+    fun `given a valid Category, when calling update with invalid arguments without validating, then should update category`() {
         val expectedName = "F"
         val expectedDescription = "A"
         val expectedActive = false
