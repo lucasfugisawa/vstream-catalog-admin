@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-group = 'br.com.fugisawa.vstream.catalog.admin.domain'
+group = 'com.fugisawa.vstream.catalog.admin.domain'
 version = '1.0-SNAPSHOT'
 
 repositories {
