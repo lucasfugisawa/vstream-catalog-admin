@@ -1,6 +1,6 @@
 package com.fugisawa.vstream.catalog.admin.application.category.create
 
-data class CreateCategoryCommand(
+data class CreateCategoryCommand private constructor(
     val name: String,
     val description: String,
     val active: Boolean,

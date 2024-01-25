@@ -20,10 +20,10 @@ class DefaultCreateCategoryUseCaseTest {
 
     @Test
     fun `Given a valid command, when executing, then should create a category`() {
-        val command = CreateCategoryCommand("Test", "This is a test", true)
+        val command = CreateCategoryCommand.with("Test", "This is a test", true)
         val expected = Category.newCategory("Test", "This is a test", true)
 
-        whenever(categoryGateway.create(any())).thenAnswer { it.arguments[0] }
+        whenever(categoryGateway.create(any())).thenAnswer { it.arguments.first() }
 
         val result = useCase.execute(command).rightOrNull()
         assertNotNull(result)
@@ -38,7 +38,7 @@ class DefaultCreateCategoryUseCaseTest {
 
     @Test
     fun `Given an invalid command with an invalid name, when executing, then should throw a domain exception`() {
-        val command = CreateCategoryCommand("", "This is a test", true)
+        val command = CreateCategoryCommand.with("", "This is a test", true)
         val expectedErrorMessage = "'name' must not be empty or blank"
         val expectedErrorCount = 2
 
@@ -51,10 +51,10 @@ class DefaultCreateCategoryUseCaseTest {
 
     @Test
     fun `Given a valid command and inactive initial value, when executing, then should create a category`() {
-        val command = CreateCategoryCommand("Test", "This is a test", false)
+        val command = CreateCategoryCommand.with("Test", "This is a test", false)
         val expected = Category.newCategory("Test", "This is a test", false)
 
-        whenever(categoryGateway.create(any())).thenAnswer { it.arguments[0] }
+        whenever(categoryGateway.create(any())).thenAnswer { it.arguments.first() }
 
         val result = useCase.execute(command).rightOrNull()
         assertNotNull(result)
@@ -69,7 +69,7 @@ class DefaultCreateCategoryUseCaseTest {
 
     @Test
     fun `Given a valid command, when gateway error happens, then should throw IllegalStateException`() {
-        val command = CreateCategoryCommand("Test", "This is a test", true)
+        val command = CreateCategoryCommand.with("Test", "This is a test", true)
         val expected = Category.newCategory("Test", "This is a test", true)
         val expectedErrorMessage = "Gateway error"
         val expectedErrorCount = 1
