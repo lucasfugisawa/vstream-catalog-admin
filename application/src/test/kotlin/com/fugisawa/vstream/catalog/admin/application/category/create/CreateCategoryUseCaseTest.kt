@@ -2,12 +2,11 @@ import com.fugisawa.vstream.catalog.admin.application.category.create.CreateCate
 import com.fugisawa.vstream.catalog.admin.application.category.create.DefaultCreateCategoryUseCase
 import com.fugisawa.vstream.catalog.admin.domain.category.Category
 import com.fugisawa.vstream.catalog.admin.domain.category.CategoryGateway
-import com.fugisawa.vstream.catalog.admin.domain.exceptions.DomainException
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.*
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 class DefaultCreateCategoryUseCaseTest {
     private lateinit var categoryGateway: CategoryGateway
@@ -26,7 +25,8 @@ class DefaultCreateCategoryUseCaseTest {
 
         whenever(categoryGateway.create(any())).thenAnswer { it.arguments[0] }
 
-        val result = useCase.execute(command)
+        val result = useCase.execute(command).rightOrNull()
+        assertNotNull(result)
 
         verify(categoryGateway, times(1)).create(argThat {
             name == expected.name
@@ -38,12 +38,14 @@ class DefaultCreateCategoryUseCaseTest {
 
     @Test
     fun `Given an invalid command with an invalid name, when executing, then should throw a domain exception`() {
-        val command = CreateCategoryCommand("   ", "This is a test", false)
+        val command = CreateCategoryCommand("", "This is a test", true)
         val expectedErrorMessage = "'name' must not be empty or blank"
+        val expectedErrorCount = 2
 
-        val actualException = assertThrows<DomainException>{ useCase.execute(command) }
+        val notification = useCase.execute(command).leftOrNull()
+        assertEquals(expectedErrorCount, notification?.errors?.size)
+        assertEquals(expectedErrorMessage, notification?.errors?.first()?.message)
 
-        assertEquals(expectedErrorMessage, actualException.errors[0].message)
         verify(categoryGateway, times(0)).create(any())
     }
 
@@ -54,7 +56,9 @@ class DefaultCreateCategoryUseCaseTest {
 
         whenever(categoryGateway.create(any())).thenAnswer { it.arguments[0] }
 
-        val result = useCase.execute(command)
+        val result = useCase.execute(command).rightOrNull()
+        assertNotNull(result)
+
         verify(categoryGateway, times(1)).create(argThat {
             name == expected.name
                     && description == expected.description
@@ -67,12 +71,14 @@ class DefaultCreateCategoryUseCaseTest {
     fun `Given a valid command, when gateway error happens, then should throw IllegalStateException`() {
         val command = CreateCategoryCommand("Test", "This is a test", true)
         val expected = Category.newCategory("Test", "This is a test", true)
-
         val expectedErrorMessage = "Gateway error"
+        val expectedErrorCount = 1
 
         whenever(categoryGateway.create(any())).thenThrow(IllegalStateException(expectedErrorMessage))
 
-        val actualException = assertThrows<IllegalStateException> { useCase.execute(command) }
+        val notification = useCase.execute(command).leftOrNull()
+        assertEquals(expectedErrorCount, notification?.errors?.size)
+        assertEquals(expectedErrorMessage, notification?.errors?.first()?.message)
 
         verify(categoryGateway, times(1)).create(argThat {
             name == expected.name
