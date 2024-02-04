@@ -1,21 +1,17 @@
 package com.fugisawa.vstream.catalog.admin.application.utils
 
-sealed class Either<L, R> {
+sealed class Either<out L, out R> {
 
-    data class Left<L, R>(override val value: L) : Either<L, R>()
-    data class Right<L, R>(override val value: R) : Either<L, R>()
+    data class Left<out L>(override val value: L) : Either<L, Nothing>()
+    data class Right<out R>(override val value: R) : Either<Nothing, R>()
 
     abstract val value: Any?
-    val hasLeft: Boolean = this is Left<L, R>
-    val hasRight: Boolean = this is Right<L, R>
-    fun leftOrNull(): L? = if (this is Left<L, R>) value else null
-    fun rightOrNull(): R? = if (this is Right<L, R>) value else null
-    fun leftOrThrow(throwable: Throwable): L = if (this is Left<L, R>) value else throw throwable
-    fun rightOrThrow(throwable: Throwable): R = if (this is Right<L, R>) value else throw throwable
-    fun leftOrDefault(defaultValue: L?): L? = if (this is Left<L, R>) value else defaultValue
-    fun rightOrDefault(defaultValue: R?): R? = if (this is Right<L, R>) value else defaultValue
-    fun leftOrElse(onRight: (right: R) -> L?): L? = if (this is Left<L, R>) value else onRight(value as R)
-    fun rightOrElse(onLeft: (left: L) -> R?): R? = if (this is Right<L, R>) value else onLeft(value as L)
+    val isLeft: Boolean = this is Left<L>
+    val isRight: Boolean = this is Right<R>
+    fun leftOrNull(): L? = if (isLeft) value as L else null
+    fun rightOrNull(): R? = if (isRight) value as R else null
+    fun leftOrThrow(throwable: Throwable): L = if (isLeft) value as L else throw throwable
+    fun rightOrThrow(throwable: Throwable): R = if (isRight) value as R else throw throwable
 
     fun <T> fold(fnL: (L) -> T, fnR: (R) -> T): T = when (this) {
         is Left -> fnL(value)
