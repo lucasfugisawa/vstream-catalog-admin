@@ -8,7 +8,7 @@ import com.fugisawa.vstream.catalog.admin.domain.validation.Notification
 class DefaultCreateCategoryUseCase(private val categoryGateway: CategoryGateway) : CreateCategoryUseCase() {
 
     override fun execute(input: CreateCategoryCommand): Either<Notification, CreateCategoryOutput> {
-        val newCategory = Category.newCategory(input.name, input.description, input.active)
+        val newCategory = Category(input.name, input.description, input.active)
         val notification = Notification.create()
         newCategory.validate(notification)
         return if (notification.hasErrors()) Either.Left(notification) else createCategoryOutput(newCategory)

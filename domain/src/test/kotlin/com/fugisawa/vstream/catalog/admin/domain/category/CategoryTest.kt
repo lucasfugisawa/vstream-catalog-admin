@@ -13,7 +13,7 @@ class CategoryTest {
         val expectedDescription = "A categoria mais assistida!"
         val expectedActive = true
 
-        val actualCategory = Category.newCategory(expectedName, expectedDescription, expectedActive)
+        val actualCategory = Category(expectedName, expectedDescription, expectedActive)
 
         assertNotNull(actualCategory.id)
         assertEquals(expectedName, actualCategory.name)
@@ -31,7 +31,7 @@ class CategoryTest {
         val expectedActive = true
         val expectedErrorMessage = "'name' must not be empty or blank"
 
-        val actualCategory = Category.newCategory(expectedName, expectedDescription, expectedActive)
+        val actualCategory = Category(expectedName, expectedDescription, expectedActive)
 
         val actualException =
             assertThrows(DomainException::class.java) { actualCategory.validate(DomainExceptionValidationHandler()) }
@@ -47,7 +47,7 @@ class CategoryTest {
         val expectedActive = true
         val expectedErrorMessage = "'name' must not be empty or blank"
 
-        val actualCategory = Category.newCategory(expectedName, expectedDescription, expectedActive)
+        val actualCategory = Category(expectedName, expectedDescription, expectedActive)
 
         val actualException =
             assertThrows(DomainException::class.java) { actualCategory.validate(DomainExceptionValidationHandler()) }
@@ -63,7 +63,7 @@ class CategoryTest {
         val expectedActive = true
         val expectedErrorMessage = "'name' must be at between 3 and 255 characters long"
 
-        val actualCategory = Category.newCategory(expectedName, expectedDescription, expectedActive)
+        val actualCategory = Category(expectedName, expectedDescription, expectedActive)
 
         val actualException =
             assertThrows(DomainException::class.java) { actualCategory.validate(DomainExceptionValidationHandler()) }
@@ -79,7 +79,7 @@ class CategoryTest {
         val expectedActive = true
         val expectedErrorMessage = "'name' must be at between 3 and 255 characters long"
 
-        val actualCategory = Category.newCategory(expectedName, expectedDescription, expectedActive)
+        val actualCategory = Category(expectedName, expectedDescription, expectedActive)
 
         val actualException =
             assertThrows(DomainException::class.java) { actualCategory.validate(DomainExceptionValidationHandler()) }
@@ -93,7 +93,7 @@ class CategoryTest {
         val expectedDescription = "  "
         val expectedActive = true
 
-        val actualCategory = Category.newCategory(expectedName, expectedDescription, expectedActive)
+        val actualCategory = Category(expectedName, expectedDescription, expectedActive)
 
         assertDoesNotThrow { actualCategory.validate(DomainExceptionValidationHandler()) }
         assertEquals(expectedName, actualCategory.name)
@@ -108,7 +108,7 @@ class CategoryTest {
         val expectedName = "Filmes"
         val expectedActive = true
 
-        val actualCategory = Category.newCategory(expectedName, null, expectedActive)
+        val actualCategory = Category(expectedName, null, expectedActive)
 
         assertDoesNotThrow { actualCategory.validate(DomainExceptionValidationHandler()) }
         assertEquals(expectedName, actualCategory.name)
@@ -124,7 +124,7 @@ class CategoryTest {
         val expectedDescription = "A categoria mais assistida!"
         val expectedActive = false
 
-        val actualCategory = Category.newCategory(expectedName, expectedDescription, expectedActive)
+        val actualCategory = Category(expectedName, expectedDescription, expectedActive)
 
         assertDoesNotThrow { actualCategory.validate(DomainExceptionValidationHandler()) }
         assertEquals(expectedName, actualCategory.name)
@@ -140,7 +140,7 @@ class CategoryTest {
         val expectedDescription = "A categoria mais assistida!"
         val expectedActive = true
 
-        val aCategory = Category.newCategory(expectedName, expectedDescription, expectedActive)
+        val aCategory = Category(expectedName, expectedDescription, expectedActive)
 
         val createdAt = aCategory.createdAt
 
@@ -165,7 +165,7 @@ class CategoryTest {
         val expectedDescription = "A categoria mais assistida!"
         val expectedActive = false
 
-        val aCategory = Category.newCategory(expectedName, expectedDescription, expectedActive)
+        val aCategory = Category(expectedName, expectedDescription, expectedActive)
 
         val createdAt = aCategory.createdAt
 
@@ -190,8 +190,7 @@ class CategoryTest {
         val expectedDescription = "A categoria mais assistida!"
         val expectedActive = false
 
-        val aCategory =
-            Category.newCategory("Filmes with typo", "A categoria mais assistida with typo!", true)
+        val aCategory = Category("Filmes with typo", "A categoria mais assistida with typo!", true)
 
         assertDoesNotThrow { aCategory.validate(DomainExceptionValidationHandler()) }
         assertNull(aCategory.deletedAt)
@@ -216,8 +215,7 @@ class CategoryTest {
         val expectedDescription = "A categoria mais assistida!"
         val expectedActive = false
 
-        val aCategory =
-            Category.newCategory("Filmes with typo", "A categoria mais assistida with typo!", true)
+        val aCategory = Category("Filmes with typo", "A categoria mais assistida with typo!", true)
 
         assertDoesNotThrow { aCategory.validate(DomainExceptionValidationHandler()) }
 
@@ -240,8 +238,7 @@ class CategoryTest {
         val expectedDescription = "A"
         val expectedActive = false
 
-        val aCategory =
-            Category.newCategory("Filmes with typo", "A categoria mais assistida with typo!", true)
+        val aCategory = Category("Filmes with typo", "A categoria mais assistida with typo!", true)
 
         assertDoesNotThrow { aCategory.validate(DomainExceptionValidationHandler()) }
 

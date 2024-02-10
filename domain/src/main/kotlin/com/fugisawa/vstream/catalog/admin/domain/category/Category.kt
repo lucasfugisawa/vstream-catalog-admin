@@ -5,60 +5,58 @@ import com.fugisawa.vstream.catalog.admin.domain.validation.ValidationHandler
 import java.time.Clock
 import java.time.Instant
 
-class Category private constructor(
-    id: CategoryID,
-    var name: String,
-    var description: String?,
-    var active: Boolean,
-    val createdAt: Instant,
-    var updatedAt: Instant,
-    var deletedAt: Instant?,
-) : AggregateRoot<CategoryID>(id) {
+class Category(
+    name: String,
+    description: String?,
+    active: Boolean = true,
+) : AggregateRoot<CategoryID>(CategoryID()) {
 
-    companion object {
-        fun newCategory(name: String, description: String?, active: Boolean): Category {
-            val now = Clock.systemUTC().instant()
-            val deletedAt = if (active) null else now
-            return Category(
-                id = CategoryID.unique(),
-                name = name,
-                description = description,
-                active = active,
-                createdAt = now,
-                updatedAt = now,
-                deletedAt = deletedAt,
-            )
-        }
+    var name: String = name; private set
+    var description: String? = description; private set
+    var active: Boolean = active; private set
+    var createdAt: Instant private set
+    var updatedAt: Instant private set
+    var deletedAt: Instant? = null; private set
+
+    init {
+        val now = now()
+        this.createdAt = now
+        this.updatedAt = now
+        this.deletedAt = if (active) null else now
     }
 
     override fun validate(handler: ValidationHandler) = CategoryValidator(this, handler).validate()
 
-    fun deactivate(): Category =
-        apply {
-            if (active) {
-                val now = Clock.systemUTC().instant()
-                deletedAt = now
-                updatedAt = now
-                active = false
-            }
+    fun deactivate(): Category {
+        if (active) {
+            val now = now()
+            deletedAt = now
+            updatedAt = now
+            active = false
         }
+        return this
+    }
 
-    fun activate(): Category =
-        apply {
-            if (!active) {
-                deletedAt = null
-                updatedAt = Clock.systemUTC().instant()
-                active = true
-            }
+    fun activate(): Category {
+        if (!active) {
+            deletedAt = null
+            updatedAt = now()
+            active = true
         }
+        return this
+    }
 
     fun update(name: String, description: String?, active: Boolean): Category {
+        val now = now()
         if (this.active != active) {
-            if (active) activate() else deactivate()
+            this.deletedAt = if (active) null else now
+            this.active = active
         }
         this.name = name
         this.description = description
-        this.updatedAt = Clock.systemUTC().instant()
+        this.updatedAt = now
         return this
     }
 }
+
+private fun now() = Clock.systemUTC().instant()

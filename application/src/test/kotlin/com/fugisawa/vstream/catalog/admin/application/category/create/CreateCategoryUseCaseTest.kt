@@ -21,7 +21,7 @@ class DefaultCreateCategoryUseCaseTest {
     @Test
     fun `Given a valid command, when executing, then should create a category`() {
         val command = CreateCategoryCommand.with("Test", "This is a test", true)
-        val expected = Category.newCategory("Test", "This is a test", true)
+        val expected = Category("Test", "This is a test", true)
 
         whenever(categoryGateway.create(any())).thenAnswer { it.arguments.first() }
 
@@ -52,7 +52,7 @@ class DefaultCreateCategoryUseCaseTest {
     @Test
     fun `Given a valid command and inactive initial value, when executing, then should create a category`() {
         val command = CreateCategoryCommand.with("Test", "This is a test", false)
-        val expected = Category.newCategory("Test", "This is a test", false)
+        val expected = Category("Test", "This is a test", false)
 
         whenever(categoryGateway.create(any())).thenAnswer { it.arguments.first() }
 
@@ -70,7 +70,7 @@ class DefaultCreateCategoryUseCaseTest {
     @Test
     fun `Given a valid command, when gateway error happens, then should throw IllegalStateException`() {
         val command = CreateCategoryCommand.with("Test", "This is a test", true)
-        val expected = Category.newCategory("Test", "This is a test", true)
+        val expected = Category("Test", "This is a test", true)
         val expectedErrorMessage = "Gateway error"
         val expectedErrorCount = 1
 

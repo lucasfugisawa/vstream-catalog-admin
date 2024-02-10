@@ -3,10 +3,7 @@ package com.fugisawa.vstream.catalog.admin.domain.category
 import com.fugisawa.vstream.catalog.admin.domain.Identifier
 import java.util.UUID
 
-data class CategoryID private constructor(val value: String) : Identifier() {
-    companion object {
-        fun unique() = CategoryID(UUID.randomUUID().toString().lowercase())
-        fun from(id: String) = CategoryID(id.lowercase())
-        fun from(id: UUID) = CategoryID(id.toString().lowercase())
-    }
+data class CategoryID(val value: String): Identifier() {
+    constructor() : this(UUID.randomUUID().toString().lowercase())
+    constructor(id: UUID) : this(id.toString().lowercase())
 }
