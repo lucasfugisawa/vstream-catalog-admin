@@ -18,7 +18,7 @@ class DefaultCreateCategoryUseCase(private val categoryGateway: CategoryGateway)
         runCatching {
             categoryGateway
                 .create(newCategory)
-                .let(CreateCategoryOutput::with)
+                .let(::CreateCategoryOutput)
         }.fold(
             onSuccess = { Either.Right(it) },
             onFailure = { Either.Left(Notification.create(it)) }
