@@ -2,26 +2,23 @@ package com.fugisawa.vstream.catalog.admin.domain.validation
 
 import com.fugisawa.vstream.catalog.admin.domain.exceptions.DomainException
 
-class Notification private constructor(error: ValidationError? = null) : ValidationHandler {
+class Notification(error: ValidationError? = null) : ValidationHandler {
 
-    private val _errors: MutableList<ValidationError> = mutableListOf()
+    private val validationErrors: MutableList<ValidationError> = mutableListOf()
 
-    companion object {
-        fun create(): Notification = Notification()
-        fun create(error: ValidationError? = null): Notification = Notification(error)
-        fun create(error: Throwable? = null): Notification = Notification(ValidationError(error?.message ?: ""))
-    }
+    constructor(error: Throwable? = null) : this(ValidationError(error?.message ?: ""))
+    constructor() : this(null as ValidationError?)
 
     override val errors: List<ValidationError>
-        get() = _errors.toList()
+        get() = validationErrors.toList()
 
     override fun append(error: ValidationError): ValidationHandler {
-        _errors += error
+        validationErrors += error
         return this
     }
 
     override fun append(handler: ValidationHandler): ValidationHandler {
-        _errors += handler.errors
+        validationErrors += handler.errors
         return this
     }
 
@@ -29,9 +26,9 @@ class Notification private constructor(error: ValidationError? = null) : Validat
         try {
             validation.validate()
         } catch (e: DomainException) {
-            _errors += e.errors
+            validationErrors += e.errors
         } catch (e: Throwable) {
-            _errors += ValidationError(e.message ?: "")
+            validationErrors += ValidationError(e.message ?: "")
         }
         return this
     }
