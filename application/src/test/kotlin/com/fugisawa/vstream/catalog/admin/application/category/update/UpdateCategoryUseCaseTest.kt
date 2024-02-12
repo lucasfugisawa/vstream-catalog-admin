@@ -18,14 +18,13 @@ class UpdateCategoryUseCaseTest {
         useCase = DefaultUpdateCategoryUseCase(categoryGateway)
     }
 
-    // caminho feliz
     @Test
     fun `Given a valid command, when executing, then should update a category`() {
         val category = Category("Any", null, true)
         val expected = Category("Test", "This is a test", true)
         val expectedId = category.id
 
-        val command = UpdateCategoryCommand(expectedId.value, expected.name, expected.description, expected.active)
+        val command = UpdateCategoryCommand(expectedId, expected.name, expected.description, expected.active)
 
         whenever(categoryGateway.findById(eq(expectedId))).thenReturn(category)
         whenever(categoryGateway.update(any())).thenAnswer { it.arguments.first() }
