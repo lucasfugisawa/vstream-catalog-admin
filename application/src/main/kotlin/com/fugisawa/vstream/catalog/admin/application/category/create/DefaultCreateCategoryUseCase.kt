@@ -9,7 +9,7 @@ class DefaultCreateCategoryUseCase(private val categoryGateway: CategoryGateway)
 
     override fun execute(input: CreateCategoryCommand): Either<Notification, CreateCategoryOutput> {
         val newCategory = Category(input.name, input.description, input.active)
-        val notification = Notification.create()
+        val notification = Notification()
         newCategory.validate(notification)
         return if (notification.hasErrors()) Either.Left(notification) else createCategoryOutput(newCategory)
     }
@@ -21,6 +21,6 @@ class DefaultCreateCategoryUseCase(private val categoryGateway: CategoryGateway)
                 .let(::CreateCategoryOutput)
         }.fold(
             onSuccess = { Either.Right(it) },
-            onFailure = { Either.Left(Notification.create(it)) }
+            onFailure = { Either.Left(Notification(it)) }
         )
 }
