@@ -5,25 +5,23 @@ import com.fugisawa.vstream.catalog.admin.domain.validation.ValidationHandler
 import java.time.Clock
 import java.time.Instant
 
-class Category(
-    name: String,
-    description: String?,
-    active: Boolean = true,
-) : AggregateRoot<CategoryID>(CategoryID()) {
+class
+Category(
+    id: CategoryID? = null,
+    var name: String,
+    var description: String?,
+    var active: Boolean = true,
+    var createdAt: Instant = Instant.now(),
+    var updatedAt: Instant = createdAt,
+    var deletedAt: Instant? = if (active) null else createdAt,
+) : AggregateRoot<CategoryID>(id ?: CategoryID()) {
 
-    var name: String = name; private set
-    var description: String? = description; private set
-    var active: Boolean = active; private set
-    var createdAt: Instant private set
-    var updatedAt: Instant private set
-    var deletedAt: Instant? = null; private set
-
-    init {
-        val now = now()
-        this.createdAt = now
-        this.updatedAt = now
-        this.deletedAt = if (active) null else now
-    }
+    constructor(name: String, description: String?, active: Boolean): this(
+        id = null,
+        name = name,
+        description = description,
+        active = active
+    )
 
     override fun validate(handler: ValidationHandler) = CategoryValidator(this, handler).validate()
 
