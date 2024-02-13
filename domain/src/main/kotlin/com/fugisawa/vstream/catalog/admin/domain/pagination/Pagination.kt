@@ -1,6 +1,6 @@
 package com.fugisawa.vstream.catalog.admin.domain.pagination
 
-data class Page<T>(
+data class Pagination<T>(
     val current: Int,
     val size: Int,
     val total: Long,

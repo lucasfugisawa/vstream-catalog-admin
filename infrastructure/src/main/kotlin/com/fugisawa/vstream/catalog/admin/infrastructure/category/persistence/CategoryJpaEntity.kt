@@ -45,11 +45,11 @@ fun Category.toJpaEntity(): CategoryJpaEntity = CategoryJpaEntity(
 )
 
 fun CategoryJpaEntity.toAggregate(): Category = Category(
-    id = CategoryID(this.id),
-    name = this.name,
-    description = this.description,
-    active = this.active,
-    createdAt = this.createdAt,
-    updatedAt = this.updatedAt,
-    deletedAt = this.deletedAt
+    id = CategoryID(id),
+    name = name,
+    description = description,
+    active = active,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    deletedAt = deletedAt,
 )

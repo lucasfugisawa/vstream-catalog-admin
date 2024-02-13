@@ -2,8 +2,8 @@ package com.fugisawa.vstream.catalog.admin.application.category.retrieve.list
 
 import com.fugisawa.vstream.catalog.admin.domain.category.Category
 import com.fugisawa.vstream.catalog.admin.domain.category.CategoryGateway
-import com.fugisawa.vstream.catalog.admin.domain.category.CategorySearchCriteria
-import com.fugisawa.vstream.catalog.admin.domain.pagination.Page
+import com.fugisawa.vstream.catalog.admin.domain.category.CategorySearchQuery
+import com.fugisawa.vstream.catalog.admin.domain.pagination.Pagination
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -34,16 +34,16 @@ class ListCategoriesUseCaseTest {
         val expectedPerPage = 10
         val expectedTerms = ""
         val expectedSort = "createdAt"
-        val expectedDirection = CategorySearchCriteria.Direction.ASC
+        val expectedDirection = CategorySearchQuery.Direction.ASC
 
         val query =
-            CategorySearchCriteria(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection)
+            CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection)
 
-        val expectedPageResult = Page(expectedPage, expectedPerPage, categories.size.toLong(), categories)
+        val expectedPaginationResult = Pagination(expectedPage, expectedPerPage, categories.size.toLong(), categories)
 
         val expectedItemsCount = 2
-        val expectedResult = expectedPageResult.run {
-            Page(
+        val expectedResult = expectedPaginationResult.run {
+            Pagination(
                 current = this.current,
                 size = this.size,
                 total = this.total,
@@ -51,7 +51,7 @@ class ListCategoriesUseCaseTest {
             )
         }
 
-        whenever(categoryGateway.findAll(eq(query))).thenReturn(expectedPageResult)
+        whenever(categoryGateway.findAll(eq(query))).thenReturn(expectedPaginationResult)
 
         val actualResult = useCase.execute(query)
 
@@ -70,16 +70,16 @@ class ListCategoriesUseCaseTest {
         val expectedPerPage = 10
         val expectedTerms = ""
         val expectedSort = "createdAt"
-        val expectedDirection = CategorySearchCriteria.Direction.ASC
+        val expectedDirection = CategorySearchQuery.Direction.ASC
 
         val query =
-            CategorySearchCriteria(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection)
+            CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection)
 
-        val expectedPageResult = Page(expectedPage, expectedPerPage, categories.size.toLong(), categories)
+        val expectedPaginationResult = Pagination(expectedPage, expectedPerPage, categories.size.toLong(), categories)
 
         val expectedItemsCount = 0
-        val expectedResult = expectedPageResult.run {
-            Page(
+        val expectedResult = expectedPaginationResult.run {
+            Pagination(
                 current = this.current,
                 size = this.size,
                 total = this.total,
@@ -87,7 +87,7 @@ class ListCategoriesUseCaseTest {
             )
         }
 
-        whenever(categoryGateway.findAll(eq(query))).thenReturn(expectedPageResult)
+        whenever(categoryGateway.findAll(eq(query))).thenReturn(expectedPaginationResult)
 
         val actualResult = useCase.execute(query)
 
@@ -104,11 +104,11 @@ class ListCategoriesUseCaseTest {
         val expectedPerPage = 10
         val expectedTerms = ""
         val expectedSort = "createdAt"
-        val expectedDirection = CategorySearchCriteria.Direction.ASC
+        val expectedDirection = CategorySearchQuery.Direction.ASC
         val expectedErrorMessage = "Gateway error"
 
         val query =
-            CategorySearchCriteria(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection)
+            CategorySearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection)
 
         whenever(categoryGateway.findAll(eq(query))).thenThrow(IllegalStateException(expectedErrorMessage))
 

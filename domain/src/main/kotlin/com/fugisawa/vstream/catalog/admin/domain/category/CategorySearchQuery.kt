@@ -1,6 +1,6 @@
 package com.fugisawa.vstream.catalog.admin.domain.category
 
-data class CategorySearchCriteria(
+data class CategorySearchQuery(
     val page: Int,
     val pageSize: Int,
     val terms: String,
