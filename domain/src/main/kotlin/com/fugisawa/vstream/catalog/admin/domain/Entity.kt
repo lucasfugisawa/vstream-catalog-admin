@@ -2,7 +2,7 @@ package com.fugisawa.vstream.catalog.admin.domain
 
 import com.fugisawa.vstream.catalog.admin.domain.validation.ValidationHandler
 
-abstract class Entity<ID : Identifier>(val id: ID) {
+abstract class Entity<ID : Identifier>(open var id: ID) {
 
     abstract fun validate(handler: ValidationHandler)
 

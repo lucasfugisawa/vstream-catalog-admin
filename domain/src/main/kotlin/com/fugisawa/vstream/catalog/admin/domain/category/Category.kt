@@ -5,19 +5,18 @@ import com.fugisawa.vstream.catalog.admin.domain.validation.ValidationHandler
 import java.time.Clock
 import java.time.Instant
 
-class
-Category(
-    id: CategoryID? = null,
+data class Category(
+    override var id: CategoryID,
     var name: String,
     var description: String?,
     var active: Boolean = true,
     var createdAt: Instant = Instant.now(),
     var updatedAt: Instant = createdAt,
     var deletedAt: Instant? = if (active) null else createdAt,
-) : AggregateRoot<CategoryID>(id ?: CategoryID()) {
+) : AggregateRoot<CategoryID>(id) {
 
     constructor(name: String, description: String?, active: Boolean): this(
-        id = null,
+        id = CategoryID(),
         name = name,
         description = description,
         active = active
