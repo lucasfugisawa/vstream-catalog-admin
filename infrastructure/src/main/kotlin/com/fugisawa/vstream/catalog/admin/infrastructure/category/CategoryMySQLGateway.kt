@@ -22,11 +22,14 @@ class CategoryMySQLGateway(
         .let(categoryRepository::save)
         .toAggregate()
 
-    override fun deleteById(id: CategoryID): Unit = TODO("Not yet implemented")
+    override fun deleteById(id: CategoryID): Unit = categoryRepository.deleteById(id.value)
 
     override fun findById(id: CategoryID): Category? = TODO("Not yet implemented")
 
-    override fun update(category: Category): Category = TODO("Not yet implemented")
+    override fun update(category: Category): Category = category
+        .toJpaEntity()
+        .let(categoryRepository::save)
+        .toAggregate()
 
     override fun findAll(criteria: CategorySearchCriteria): Page<Category> = TODO("Not yet implemented")
 }
