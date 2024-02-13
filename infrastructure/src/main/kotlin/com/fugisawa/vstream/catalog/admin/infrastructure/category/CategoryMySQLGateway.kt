@@ -8,7 +8,6 @@ import com.fugisawa.vstream.catalog.admin.domain.pagination.Page
 import com.fugisawa.vstream.catalog.admin.infrastructure.category.persistence.CategoryRepository
 import com.fugisawa.vstream.catalog.admin.infrastructure.category.persistence.toAggregate
 import com.fugisawa.vstream.catalog.admin.infrastructure.category.persistence.toJpaEntity
-import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull
 
@@ -22,9 +21,15 @@ class CategoryMySQLGateway(
         .let(categoryRepository::save)
         .toAggregate()
 
-    override fun deleteById(id: CategoryID): Unit = categoryRepository.deleteById(id.value)
+    override fun deleteById(id: CategoryID) {
+        if (categoryRepository.existsById(id.value))
+            categoryRepository.deleteById(id.value)
+    }
 
-    override fun findById(id: CategoryID): Category? = TODO("Not yet implemented")
+    override fun findById(id: CategoryID): Category? = categoryRepository
+        .findById(id.value)
+        .getOrNull()
+        ?.toAggregate()
 
     override fun update(category: Category): Category = category
         .toJpaEntity()

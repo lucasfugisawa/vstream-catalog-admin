@@ -3,7 +3,6 @@ package com.fugisawa.vstream.catalog.admin.infrastructure.category
 import com.fugisawa.vstream.catalog.MySQLGatewayTest
 import com.fugisawa.vstream.catalog.admin.domain.category.Category
 import com.fugisawa.vstream.catalog.admin.domain.category.CategoryID
-import com.fugisawa.vstream.catalog.admin.infrastructure.category.persistence.CategoryJpaEntity
 import com.fugisawa.vstream.catalog.admin.infrastructure.category.persistence.CategoryRepository
 import com.fugisawa.vstream.catalog.admin.infrastructure.category.persistence.toJpaEntity
 import org.junit.jupiter.api.Assertions.*
@@ -121,5 +120,39 @@ class CategoryMySQLGatewayTest @Autowired constructor(
         assertEquals(0, categoryRepository.count())
     }
 
+    @Test
+    fun `Given a pre-persisted category and a valid category id, when calling findById, then the category should be retrieved`() {
+        val expectedName = "Filmes"
+        val expectedDescription = "A categoria mais assistida"
+        val expectedIsActive = true
+
+        val category = Category(expectedName, expectedDescription, expectedIsActive)
+
+        assertEquals(0, categoryRepository.count())
+
+        categoryRepository.saveAndFlush(category.toJpaEntity())
+
+        assertEquals(1, categoryRepository.count())
+
+        val actualCategory = categoryGateway.findById(category.id)
+
+        assertEquals(1, categoryRepository.count())
+
+        assertEquals(category.id, actualCategory?.id)
+        assertEquals(expectedName, actualCategory?.name)
+        assertEquals(expectedDescription, actualCategory?.description)
+        assertEquals(expectedIsActive, actualCategory?.active)
+        assertEquals(category.createdAt, actualCategory?.createdAt)
+        assertEquals(category.updatedAt, actualCategory?.updatedAt)
+        assertEquals(category.deletedAt, actualCategory?.deletedAt)
+        assertNull(actualCategory?.deletedAt)
+    }
+
+    @Test
+    fun `Given a valid category id not stored yet, when calling findById, then it should return null category`() {
+        assertEquals(0, categoryRepository.count())
+        val actualCategory = categoryGateway.findById(CategoryID("empty"))
+        assertNull(actualCategory)
+    }
 
 }
