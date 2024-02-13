@@ -1,4 +1,11 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.flywaydb:flyway-mysql:10.7.2'
+    }
+}
 
 plugins {
     id 'application'
@@ -6,6 +13,7 @@ plugins {
     id 'org.springframework.boot' version '3.2.2'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'org.jetbrains.kotlin.plugin.spring' version '1.9.22'
+    id 'org.flywaydb.flyway' version '10.7.2'
 }
 
 group = 'com.fugisawa.vstream.catalog.admin.infrastructure'
@@ -36,6 +44,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     runtimeOnly 'com.h2database:h2'
+
+}
+
+flyway {
+    url = System.getenv('FLYWAY_DB') ?: 'jdbc:mysql://localhost:3306/vstream-catalog-admin'
+    user = System.getenv('FLYWAY_USER') ?: 'root'
+    password = System.getenv('FLYWAY_PASS') ?: '123456'
 }
 
 test {
