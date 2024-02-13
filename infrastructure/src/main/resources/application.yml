@@ -29,4 +29,6 @@ spring:
     properties:
       "[hibernate.generate_statistics]": false
       "[hibernate.connection.provider_disables_autocommit]": true
+  flyway:
+    clean-disabled: true
 

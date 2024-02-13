@@ -9,6 +9,8 @@ spring:
     url: jdbc:mysql://${mysql.url}/${mysql.schema}?useSSL=true&serverTimezone=UTC&characterEncoding=UTF-8
     username: ${mysql.username}
     password: ${mysql.password}
+  flyway:
+    clean-disabled: false
 
 server:
   port: 8080

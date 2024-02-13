@@ -13,3 +13,4 @@ fun main(args: Array<String>) {
     System.setProperty(AbstractEnvironment.DEFAULT_PROFILES_PROPERTY_NAME, DEVELOPMENT_PROFILE)
     runApplication<Main>(*args)
 }
+
