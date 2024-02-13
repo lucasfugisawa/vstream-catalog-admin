@@ -54,6 +54,9 @@ data class Category(
         this.updatedAt = now
         return this
     }
+
+    override fun equals(other: Any?): Boolean = super.equals(other)
+    override fun hashCode(): Int = super.hashCode()
 }
 
 private fun now() = Clock.systemUTC().instant()
