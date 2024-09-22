@@ -51,7 +51,8 @@ class CategoryMySQLGateway(
         return Pagination<Category>(current = pageResult.number,
             size = pageResult.size,
             total = pageResult.totalElements,
-            items = pageResult.mapNotNull { it?.toAggregate() })
+            items = pageResult.mapNotNull { it?.toAggregate() }
+        )
     }
 
     private fun assembleSpecification(str: String): Specification<CategoryJpaEntity> {
